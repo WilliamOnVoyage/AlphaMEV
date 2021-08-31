@@ -201,7 +201,7 @@ def extract_features(dataset):
 
 if __name__ == "__main__":
     workspace_dir = os.pardir
-    train = pandas.read_csv(os.path.join(workspace_dir, 'test-data', 'train.csv'), nrows=1000, error_bad_lines=False)
+    train = pandas.read_csv(os.path.join(workspace_dir, 'test-data', 'train.csv'), error_bad_lines=False)
     test = pandas.read_csv(os.path.join(workspace_dir, 'test-data', 'test.csv'))
     print(train.describe())
     print(test.describe())
