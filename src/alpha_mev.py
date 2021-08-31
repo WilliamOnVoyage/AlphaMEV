@@ -247,6 +247,9 @@ if __name__ == "__main__":
 
     x_r_train = extract_features(train[train['Label0'] == True])
     y_r_train = train[train['Label0'] == True]['Label1']
+    min_max_scaler = preprocessing.MinMaxScaler()
+    x_r_train = pandas.DataFrame(min_max_scaler.fit_transform(x_r_train))
+
     x_r_train, x_r_valid, y_r_train, y_r_valid = train_test_split(x_r_train, y_r_train, test_size=0.1)
 
     regressionModel = xgb.XGBRegressor(n_estimators=1000)
@@ -257,7 +260,11 @@ if __name__ == "__main__":
         eval_metric='rmse',
         verbose=True
     )
+    print(f"{type(regressionModel)} model training finished!")
+    # Apply same scalar to test features
+    test_features = pandas.DataFrame(min_max_scaler.transform(extract_features(test)))
     regressionPredictions = regressionModel.predict(test_features)
+    print(f"{type(regressionModel)} model prediction finished!")
 
     output_file = os.path.join(workspace_dir, 'output', 'submission.csv')
     submission = csv.writer(open(output_file, 'w', encoding='UTF8'))
