@@ -269,4 +269,6 @@ if __name__ == "__main__":
     output_file = os.path.join(workspace_dir, 'output', 'submission.csv')
     submission = csv.writer(open(output_file, 'w', encoding='UTF8'))
     for x, y in zip(binaryPredictions, regressionPredictions):
+        if not x:
+            y = 0.0
         submission.writerow([x, y])
